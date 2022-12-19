@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import { GlobalStyle } from './GlobalStyle';
-import { Buttons } from './Buttons/Buttons';
+import FeedbackOptions from './FeedbackOptions';
+import Section from './Section';
+import Statistics from './Statistics';
 
 export class App extends Component {
   state = {
@@ -10,46 +12,48 @@ export class App extends Component {
     bad: 0,
   };
 
-  handleGoodFeedback = e => {
-    console.log(' :>> Good');
-    console.log(e.target);
-    this.setState(prevState => {
-      return {
-        good: prevState.good + 1,
-      };
-    });
+  handleIncrement = name => {
+    this.setState(prevState => ({ [name]: prevState[name] + 1 }));
   };
-  handleNeutralFeedback = e => {
-    console.log(' :>> Neutral');
-    console.log(e.target);
 
-    this.setState(prevState => {
-      return { neutral: prevState.neutral + 1 };
-    });
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
   };
-  handleBadFeedback = e => {
-    console.log(' :>> Bad');
-    console.log(e.target);
-
-    this.setState(prevState => {
-      return { bad: prevState.bad + 1 };
-    });
+  countPositiveFeedbackPercentage = () => {
+    const { good, neutral, bad } = this.state;
+    return good === 0 ? 0 : Math.round((100 * good) / (good + neutral + bad));
   };
 
   render() {
     const { good, neutral, bad } = this.state;
+
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage();
+
     return (
       <div>
-        <p>Please leave feedback</p>
-        <Buttons
-          onGoodFeedback={this.handleGoodFeedback}
-          onNeutralFeedback={this.handleNeutralFeedback}
-          onBadFeedback={this.handleBadFeedback}
-        />
-        <p> Statistics</p>
-        <p> Good: {good}</p>
-        <p> Neutral:{neutral}</p>
-        <p> Bad:{bad}</p>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={this.state}
+            onFeedback={this.handleIncrement}
+          />
+        </Section>
+
+        <Section title="Statistics">
+          {total === 0 ? (
+            <p> There is no feedback</p>
+          ) : (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            />
+          )}
+        </Section>
+
         <GlobalStyle />
       </div>
     );
