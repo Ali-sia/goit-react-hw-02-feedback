@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { GlobalStyle } from './GlobalStyle';
 import FeedbackOptions from './FeedbackOptions';
-import Section from './Section';
+import Section from './Section/Section';
 import Statistics from './Statistics';
 
 export class App extends Component {

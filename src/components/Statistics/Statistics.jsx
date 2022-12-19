@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { FeedbackList } from './Statistics.styled';
 
 export default function Statistics({
   good,
@@ -9,14 +10,14 @@ export default function Statistics({
 }) {
   console.log('total :>> ', total);
   return (
-    <ul>
+    <FeedbackList>
       <li> Good: {good}</li>
       <li> Neutral: {neutral}</li>
       <li> Bad: {bad}</li>
 
       <li>Total: {total}</li>
       <li>Positise feedback: {positivePercentage}%</li>
-    </ul>
+    </FeedbackList>
   );
 }
 
