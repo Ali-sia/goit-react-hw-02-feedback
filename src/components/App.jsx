@@ -35,7 +35,7 @@ export class App extends Component {
       <div>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={this.state}
+            // options={this.state}
             onFeedback={this.handleIncrement}
           />
         </Section>
