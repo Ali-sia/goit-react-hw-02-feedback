@@ -1,10 +1,21 @@
 import PropTypes from 'prop-types';
 import { ButtonFeedback } from './FeedbackOptions.styled';
 
-const FeedbackOptions = ({ onFeedback }) => {
+const FeedbackOptions = ({ options, onFeedback }) => {
+  let optionsKeys = Object.keys(options);
+
   return (
     <>
-      <ButtonFeedback
+      {optionsKeys.map(option => (
+        <ButtonFeedback
+          type="button"
+          name={option}
+          onClick={e => onFeedback(e.target.name)}
+        >
+          {capitalizeFirstLetter(option)}
+        </ButtonFeedback>
+      ))}
+      {/* <ButtonFeedback
         type="button"
         name="good"
         onClick={e => onFeedback(e.target.name)}
@@ -24,10 +35,15 @@ const FeedbackOptions = ({ onFeedback }) => {
         onClick={e => onFeedback(e.target.name)}
       >
         Bad
-      </ButtonFeedback>
+      </ButtonFeedback> */}
     </>
   );
 };
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export default FeedbackOptions;
 
 FeedbackOptions.prototypes = {
